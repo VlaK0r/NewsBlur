@@ -31,6 +31,12 @@ services:
     entrypoint: /bin/sh -c newsblur_web/entrypoint.sh
     volumes: 
       - ${PWD}:/srv/newsblur
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur Web
+      - homepage.icon=newsblur.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=Web
 
   newsblur_node:
     container_name: node
@@ -50,7 +56,12 @@ services:
       - 8008:8008
     volumes: 
       - ${PWD}/node:/srv
-      - ${PWD}/node/originals:/srv/originals
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur Nodeb
+      - homepage.icon=node-red.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=Node   
   
   imageproxy:
     container_name: imageproxy
@@ -62,7 +73,13 @@ services:
     ports:
       - 8088:8088
     volumes:
-      - /tmp:/tmp/imageproxy
+      - /mnt/usbssd1/data/NewsBlur/tmp:/tmp/imageproxy
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur imageproxy
+      - homepage.icon=proxmox.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=Imageproxy
   
   nginx:
     container_name: nginx
@@ -82,6 +99,12 @@ services:
     volumes:
       - ./docker/nginx/nginx.local.conf:/etc/nginx/conf.d/nginx.conf
       - ${PWD}:/srv/newsblur
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur nginx
+      - homepage.icon=nginx.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=Nginx
 
   db_postgres:
     container_name: db_postgres
@@ -98,7 +121,13 @@ services:
     ports:
       - 5434:5432
     volumes:
-      - ./docker/volumes/postgres:/var/lib/postgresql/data
+      - /mnt/usbssd1/data/NewsBlur/postgres:/var/lib/postgresql/data
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur db_postgres
+      - homepage.icon=postgres.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=db_postgres
 
   db_redis:
     container_name: db_redis
@@ -109,13 +138,19 @@ services:
     volumes:
       - ./docker/redis/redis.conf:/etc/redis/redis.conf
       - ./docker/redis/redis_server.conf:/usr/local/etc/redis/redis_replica.conf
-      - ./docker/volumes/redis:/data
+      - /mnt/usbssd1/data/NewsBlur/redis:/data
     command: redis-server /etc/redis/redis.conf --port 6579
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur db_redis
+      - homepage.icon=redis.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=db_redis
 
   db_elasticsearch:
     container_name: db_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
-    mem_limit: 512mb
+    mem_limit: 1073741824
     restart: unless-stopped
     environment:
       - discovery.type=single-node
@@ -123,8 +158,14 @@ services:
       - 9200:9200
       - 9300:9300
     volumes:
-      - ./docker/volumes/elasticsearch:/usr/share/elasticsearch/data
+      - /mnt/usbssd1/data/NewsBlur/elasticsearch:/usr/share/elasticsearch/data
       - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur db_elasticsearch
+      - homepage.icon=elasticsearch.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=db_elasticsearch
 
   dejavu:
     container_name: dejavu
@@ -132,7 +173,12 @@ services:
     restart: unless-stopped
     ports:
       - 1358:1358
-
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur dejavu
+      - homepage.icon=dc-os.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=dejavu
 
   db_mongo:
     container_name: db_mongo
@@ -143,7 +189,13 @@ services:
       - 29019:29019
     command: mongod --port 29019
     volumes:
-      - ./docker/volumes/db_mongo:/data/db
+      - /mnt/usbssd1/data/NewsBlur/db_mongo:/data/db
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur db_mongo
+      - homepage.icon=mongodb.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=db_mongo
 
   task_celery:
     container_name: task_celery
@@ -155,6 +207,12 @@ services:
       - ${PWD}:/srv/newsblur
     environment: 
       - DOCKERBUILD=True
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur task_celery
+      - homepage.icon=taskcafe.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=task_celery
 
   haproxy:
     container_name: haproxy
@@ -170,9 +228,15 @@ services:
       - db_elasticsearch
       - db_mongo
     ports:
-      - 80:80
-      - 443:443
+      - 8001:80
+      - 4431:443
       - 1936:1936
     volumes:
       - ./docker/haproxy/haproxy.docker-compose.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - ${PWD}:/srv/newsblur
+    labels:
+      - homepage.group=RSS
+      - homepage.name=NewsBlur haproxy
+      - homepage.icon=haproxy.png
+      - homepage.href=https://nb.vlakor.ru
+      - homepage.description=haproxy
