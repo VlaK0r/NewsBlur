@@ -106,7 +106,7 @@ MAX_EMAILS_SENT_PER_DAY_PER_USER = 20 # Most are story notifications
 
 # Uncomment below to force all feeds to store this many stories. Default is to cut 
 # off at 25 stories for single subscriber non-premium feeds and 500 for popular feeds.
-# OVERRIDE_STORY_COUNT_MAX = 1000
+OVERRIDE_STORY_COUNT_MAX = 10000
 
 # ===========================
 # = Django-specific Modules =
