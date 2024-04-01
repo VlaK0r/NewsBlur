@@ -11,9 +11,9 @@ ADMINS                = (
 
 SERVER_EMAIL          = 'server@newsblur.com'
 HELLO_EMAIL           = 'hello@newsblur.com'
-NEWSBLUR_URL          = 'https://localhost'
+NEWSBLUR_URL          = 'https://nb.vlakor.ru'
 PUSH_DOMAIN           = 'localhost'
-SESSION_COOKIE_DOMAIN = 'localhost'
+SESSION_COOKIE_DOMAIN = 'nb.vlakor.ru'
 
 # ===================
 # = Global Settings =
